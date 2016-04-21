@@ -1,5 +1,7 @@
 package Distribuicoes;
 
+import java.util.Random;
+
 public class Uniforme implements Distribuicao{
 
 	private double a, b;
@@ -12,8 +14,9 @@ public class Uniforme implements Distribuicao{
 	}
 	
 	@Override
-	public double getVal(double[] rand) {
-		return a+(b-a)*rand[0];
+	public double getVal() {
+		double r = new Random().nextDouble();
+		return a+(b-a)*r;
 	}
 
 }
