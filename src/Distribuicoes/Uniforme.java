@@ -12,8 +12,8 @@ public class Uniforme implements Distribuicao{
 	}
 	
 	@Override
-	public double getVal(double rand) {
-		return a+(b-a)*rand;
+	public double getVal(double[] rand) {
+		return a+(b-a)*rand[0];
 	}
 
 }

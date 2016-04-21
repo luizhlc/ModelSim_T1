@@ -14,11 +14,11 @@ public class Triangular implements Distribuicao{
 	}
 	
 	@Override
-	public double getVal(double rand) {
-		if(rand<=val_comparacao){
-			return a + Math.sqrt(rand*(b-a)*(c-a));
+	public double getVal(double[] rand) {
+		if(rand[0]<=val_comparacao){
+			return a + Math.sqrt(rand[0]*(b-a)*(c-a));
 		}
-		return c-Math.sqrt((1-rand)*(c-b)*(c-a));
+		return c-Math.sqrt((1-rand[0])*(c-b)*(c-a));
 	}
 
 }

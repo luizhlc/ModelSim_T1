@@ -8,8 +8,8 @@ public class Exponencial implements Distribuicao{
 	}
 	
 	@Override
-	public double getVal(double rand) {
-		return (-1/lambda)*Math.log(1-rand);
+	public double getVal(double[] rand) {
+		return (-1/lambda)*Math.log(1-rand[0]);
 	}
 
 }
