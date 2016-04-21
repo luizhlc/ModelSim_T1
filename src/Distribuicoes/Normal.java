@@ -1,10 +1,8 @@
 package Distribuicoes;
 
-import java.util.Vector;
-
 public class Normal implements Distribuicao{
 	 
-	public Normal(Vector param){
+	public Normal(){
 		
 	}
 	@Override
