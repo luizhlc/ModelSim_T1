@@ -1,3 +1,4 @@
+package geral;
 import Distribuicoes.Distribuicao;
 
 public class Config {

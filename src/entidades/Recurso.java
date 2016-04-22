@@ -1,22 +1,30 @@
 package entidades;
 
-public abstract class Recurso {
-	protected double tempo_ocioso=0;
-	protected double nro_atendidos=0;
-	protected boolean ocupado = false;
+import geral.Sistema;
+
+public class Recurso {
+	protected double tempo_servico;
+	protected double nro_atendidos;
+	protected boolean livre;
 	
+	public Recurso(){
+		tempo_servico=0;
+		nro_atendidos=0;
+		livre=true;
+		
+	}
 	public void ocupa(){
-		ocupado=true;
+		livre=false;
 	}
 	
-	public void libera(){
-		ocupado =false;
+	public void libera(double tempo){
+		livre =true;
 		nro_atendidos++;
+		tempo_servico+=tempo;
 	}
-	public void atualiza(double tmp){
-		if(ocupado ==false){
-			tempo_ocioso+=tmp;
-		}
+	
+	public boolean estaLivre(){
+		return livre;
 	}
 	
 }
