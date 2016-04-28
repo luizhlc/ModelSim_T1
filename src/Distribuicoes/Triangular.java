@@ -1,5 +1,7 @@
 package Distribuicoes;
 
+import java.util.Random;
+
 public class Triangular implements Distribuicao{
 
 	private double a, b, c, val_comparacao;
@@ -14,11 +16,12 @@ public class Triangular implements Distribuicao{
 	}
 	
 	@Override
-	public double getVal(double[] rand) {
-		if(rand[0]<=val_comparacao){
-			return a + Math.sqrt(rand[0]*(b-a)*(c-a));
+	public double getVal() {
+		Double r = new Random().nextDouble();
+		if(r<=val_comparacao){
+			return a + Math.sqrt(r*(b-a)*(c-a));
 		}
-		return c-Math.sqrt((1-rand[0])*(c-b)*(c-a));
+		return c-Math.sqrt((1-r)*(c-b)*(c-a));
 	}
 
 }
