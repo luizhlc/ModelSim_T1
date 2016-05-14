@@ -27,14 +27,7 @@ public abstract class Evento implements Comparable{
 		return 1;
 	}
 	
-//	@Override
-//	public boolean equals(Object o) {
-//		if (!(o instanceof Evento))
-//            return false;
-//		Evento n = (Evento)o;
-//
-//        return this.tempo_disparo==n.tempo_disparo;
-//	}
+	abstract protected void update();
 	
 	public String estatisticas(){
 		return "";

@@ -24,12 +24,21 @@ public class Carregamento extends Evento{
 			Sistema.lista_eventos.add(new Pesagem(duracao, Sistema.tempo_atual, entidade, proximo));			
 		}
 		
+		disparaCarregamento();
+		
 		//dispara proximo
+	}
+
+	private void disparaCarregamento(){
 		if(!Sistema.fila_carregamento.isEmpty()){
 			recurso.ocupa();
 			double duracao = Config.dist_carregador.getVal();
 			Sistema.lista_eventos.add(new Carregamento(duracao, Sistema.tempo_atual, recurso.get_cliente(),recurso));
 		}
+	}
+	@Override
+	protected void update() {
+		// TODO Auto-generated method stub
 		
 	}
 }

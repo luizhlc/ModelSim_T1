@@ -10,6 +10,8 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import Estruturas.ListaRecurso;
+import entidades.Balanca;
+import entidades.Carregador;
 import entidades.Entidade;
 import entidades.Recurso;
 import evento.Carregamento;
@@ -45,9 +47,9 @@ public class Sistema {
 		lista_eventos = new ArrayList<Evento>();
 		tempo_atual = 0;
 		
-		carregadores.adicionaRecurso(new Recurso("Carregador_1", fila_carregamento, fila_balanca));
-		carregadores.adicionaRecurso(new Recurso("Carregador_2", fila_carregamento, fila_balanca));
-		balancas.adicionaRecurso(new Recurso("Balanca", fila_balanca, viajando));
+		carregadores.adicionaRecurso(new Carregador("Carregador_1", fila_carregamento, fila_balanca));
+		carregadores.adicionaRecurso(new Carregador("Carregador_2", fila_carregamento, fila_balanca));
+		balancas.adicionaRecurso(new Balanca("Balanca", fila_balanca, viajando));
 		
 		//inicializacao entidades, disparo de eventos iniciais;
 		for(int i = 0;i<Config.nroEntidades;i++){
@@ -67,9 +69,7 @@ public class Sistema {
 
 	
 	public void avancaTempo(){
-		int a0 = lista_eventos.size();
 		Evento e = lista_eventos.remove(0);
-		int a = lista_eventos.size();
 		tempo_atual= e.getTempo();
 		e.tratamento();
 		Collections.sort(lista_eventos);

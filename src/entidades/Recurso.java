@@ -3,14 +3,15 @@ package entidades;
 import java.util.Collection;
 import java.util.Queue;
 
+import geral.Sistema;
 
-public class Recurso {
+public abstract class Recurso {
 	private double tempo_servico;
 	int nro_atendidos;
-	private Collection<Entidade> saida;
-	private Queue<Entidade> entrada;
-	private Entidade cliente;
-	private boolean livre;
+	protected Collection<Entidade> saida;
+	protected Queue<Entidade> entrada;
+	protected Entidade cliente;
+	protected boolean livre;
 	String nome;
 	
 	public Recurso(String n, Queue<Entidade> in, Collection<Entidade> out){
@@ -19,13 +20,12 @@ public class Recurso {
 		nro_atendidos=0;
 		livre=true;
 		entrada =in;
-		saida = out;
-		
+		saida = out;	
 	}
-	
 	
 	public void ocupa(){
 		cliente = entrada.remove();
+		update();
 		livre=false;
 	}
 	
@@ -37,6 +37,7 @@ public class Recurso {
 		livre =true;
 		nro_atendidos++;
 		tempo_servico+=tempo;
+		cliente.set_timestamp_fila();
 		saida.add(cliente);
 	}
 	
@@ -44,13 +45,15 @@ public class Recurso {
 		return livre;
 	}
 
-	double getTempoServico(){
-		return tempo_servico;
+	double get_TaxaOcupacao(){
+		return tempo_servico/Sistema.tempo_atual;
 	}
 	
 	int getNroAtendidos(){
 		return nro_atendidos;
 	}
+	
+	abstract public void update();
 	
 	
 }
