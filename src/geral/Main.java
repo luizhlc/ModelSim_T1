@@ -1,5 +1,7 @@
 package geral;
 
+import javax.swing.plaf.synth.SynthSeparatorUI;
+
 import Distribuicoes.Constante;
 import Distribuicoes.Distribuicao;
 
@@ -11,12 +13,14 @@ public class Main {
 		Config.dist_balanca=d;
 		Config.dist_carregador=d;
 		Config.dist_transporte=d;
-		Config.nroEntidades=3;
+		Config.nroEntidades=10;
 		Config.tmpSimulacao=50;
 		a.initialize();
-		while(true){
+		Hellport r = Hellport.get_relatorio();
+		for(int i=0; i<4;i++){
 			a.avancaTempo();
 		}
+		System.out.println("banana");
 	}
 
 }

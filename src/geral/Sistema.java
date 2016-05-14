@@ -71,14 +71,17 @@ public class Sistema {
 	public void avancaTempo(){
 		Evento e = lista_eventos.remove(0);
 		tempo_atual= e.getTempo();
+		update();
 		e.tratamento();
 		Collections.sort(lista_eventos);
+		
 	}
 	
 	private void update(){
 		Hellport relatorio = Hellport.get_relatorio();
 		relatorio.update_tamanho_filaC(fila_carregamento.size());
 		relatorio.update_tamanho_filaB(fila_balanca.size());
+		relatorio.set_timestamp();
 	}
 	
 	public String getReport(){
