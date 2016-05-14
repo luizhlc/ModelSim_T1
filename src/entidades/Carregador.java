@@ -13,7 +13,7 @@ public class Carregador extends Recurso{
 	}
 	
 	@Override
-	public void update(){
+	protected void update(){
 		Hellport relatorio = Hellport.get_relatorio();
 		relatorio.update_tmp_filaC(Sistema.tempo_atual-cliente.tempo_fila);
 	}

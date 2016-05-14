@@ -19,6 +19,11 @@ public class Hellport {
 	private double tmp_filaB_min;
 	private double tmp_filaB_med;
 	
+	private int tamanho_filaC_min;
+	private int tamanho_filaC_max;
+	
+	private int tamanho_filaB_min;
+	private int tamanho_filaB_max;
 	
 	private Hellport(){
 		reset();
@@ -40,6 +45,12 @@ public class Hellport {
 		tmp_filaB_max=-1;
 		tmp_filaB_min=Double.MAX_VALUE;
 		tmp_filaB_med=0;
+		
+		tamanho_filaC_min=Integer.MAX_VALUE;
+		tamanho_filaC_max=0;
+		
+		tamanho_filaB_min=Integer.MAX_VALUE;
+		tamanho_filaB_max=0;
 	}
 	
 	public static Hellport get_relatorio(){
@@ -85,6 +96,26 @@ public class Hellport {
 			}
 		}
 		tmp_filaB_med+=tempo;
+	}
+	
+	public void update_tamanho_filaC(int size){
+		if(size>tamanho_filaC_max){
+			tamanho_filaC_max=size;
+		}else{
+			if(size<tamanho_filaC_min){
+				tamanho_filaC_min=size;
+			}
+		}
+	}
+	
+	public void update_tamanho_filaB(int size){
+		if(size>tamanho_filaB_max){
+			tamanho_filaB_max=size;
+		}else{
+			if(size<tamanho_filaB_min){
+				tamanho_filaB_min=size;
+			}
+		}
 	}
 	
 	public void update_nro_entidades_sistema(int d){

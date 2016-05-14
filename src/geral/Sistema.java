@@ -75,6 +75,12 @@ public class Sistema {
 		Collections.sort(lista_eventos);
 	}
 	
+	private void update(){
+		Hellport relatorio = Hellport.get_relatorio();
+		relatorio.update_tamanho_filaC(fila_carregamento.size());
+		relatorio.update_tamanho_filaB(fila_balanca.size());
+	}
+	
 	public String getReport(){
 		return "";
 	}

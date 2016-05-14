@@ -53,7 +53,7 @@ public abstract class Recurso {
 		return nro_atendidos;
 	}
 	
-	abstract public void update();
+	protected abstract void update();
 	
 	
 }
