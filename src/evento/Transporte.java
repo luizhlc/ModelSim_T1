@@ -19,7 +19,7 @@ public class Transporte extends Evento{
 		if(rec!=null){
 			rec.ocupa();
 			double duracao = Config.dist_carregador.getVal();
-			Sistema.lista_eventos.add(new Carregamento(duracao, Sistema.tempo_atual, Sistema.fila_carregamento.remove(),rec));
+			Sistema.lista_eventos.add(new Carregamento(duracao, Sistema.tempo_atual, rec.get_cliente(),rec));
 			return;
 		}
 	}

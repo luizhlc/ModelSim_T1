@@ -18,6 +18,7 @@ public class Recurso {
 		tempo_servico=0;
 		nro_atendidos=0;
 		livre=true;
+		entrada =in;
 		saida = out;
 		
 	}
@@ -26,6 +27,10 @@ public class Recurso {
 	public void ocupa(){
 		cliente = entrada.remove();
 		livre=false;
+	}
+	
+	public Entidade get_cliente(){
+		return cliente;
 	}
 	
 	public void libera(double tempo){

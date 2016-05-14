@@ -1,5 +1,9 @@
 package geral;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -18,23 +22,27 @@ public class Sistema {
 	public static Queue<Entidade> fila_balanca;
 	public static Vector<Entidade> entidades;
 	public static Vector<Entidade> viajando;
-	public static SortedSet<Evento> lista_eventos;
+	public static List<Evento> lista_eventos;
 	
 	public static double tempo_atual;
 	
 	public static ListaRecurso carregadores;
 	public static ListaRecurso balancas;
 	
+	public Sistema(){
+	}
 	
 	
 	public void initialize(){
 		//inicializacao estruturas
+		carregadores = new ListaRecurso();
+		balancas = new ListaRecurso();
 		fila_carregamento = new LinkedList<Entidade>();
 		fila_balanca = new LinkedList<Entidade>();
 		entidades = new Vector<Entidade>();
 		viajando = new Vector<Entidade>();
-		lista_eventos = new TreeSet<Evento>();
 		
+		lista_eventos = new ArrayList<Evento>();
 		tempo_atual = 0;
 		
 		carregadores.adicionaRecurso(new Recurso("Carregador_1", fila_carregamento, fila_balanca));
@@ -42,32 +50,29 @@ public class Sistema {
 		balancas.adicionaRecurso(new Recurso("Balanca", fila_balanca, viajando));
 		
 		//inicializacao entidades, disparo de eventos iniciais;
-		
-		Entidade caminhao1 = new Entidade("caminhao_1");
-		entidades.add(caminhao1);
-		double tempo_Caminhao1 = Config.dist_carregador.getVal();
-		Evento eA = new Carregamento(tempo_Caminhao1, tempo_atual, caminhao1, carregadores.recursoPos(0));
-		lista_eventos.add(eA);
-		
-		Entidade caminhao2 = new Entidade("caminhao_2");
-		entidades.add(caminhao2);
-		double tempo_Caminhao2 = Config.dist_carregador.getVal();
-		Evento eB = new Carregamento(tempo_Caminhao2, tempo_atual, caminhao2, carregadores.recursoPos(1));
-		lista_eventos.add(eB);
-		
-		
-		for(int i = 3;i<Config.nroEntidades;i++){
-			String nome = "caminhao_"+i;
+		for(int i = 0;i<Config.nroEntidades;i++){
+			String nome = "caminhao_"+(i+1);
 			entidades.add(new Entidade(nome));
-			fila_carregamento.add(entidades.get(i-1)); //ESPERO QUE NAO DE MERDA
+			fila_carregamento.add(entidades.get(i));
 		}
+		
+		for(int i=0;carregadores.pegaLivre()!=null;i++){
+			Recurso r = carregadores.pegaLivre();
+			r.ocupa();
+			double tempo = Config.dist_carregador.getVal();
+			lista_eventos.add(new Carregamento(tempo, tempo_atual, entidades.get(i), r));
+		}
+		Collections.sort(lista_eventos);
 	}
 
 	
 	public void avancaTempo(){
-		Evento e = lista_eventos.first();
+		int a0 = lista_eventos.size();
+		Evento e = lista_eventos.remove(0);
+		int a = lista_eventos.size();
 		tempo_atual= e.getTempo();
 		e.tratamento();
+		Collections.sort(lista_eventos);
 	}
 	
 	public String getReport(){

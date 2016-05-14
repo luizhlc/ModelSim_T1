@@ -6,4 +6,7 @@ public class Entidade {
 	public Entidade (String n){
 		nome =n;
 	}
+	public String getNome() {
+		return nome;
+	}
 }

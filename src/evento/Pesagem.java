@@ -17,12 +17,14 @@ public class Pesagem extends Evento{
 	public void tratamento() {
 		//passa adiante
 		recurso.libera(tempo_duração);
+		double duracao_transporte = Config.dist_transporte.getVal();
+		Sistema.lista_eventos.add(new Transporte(duracao_transporte, Sistema.tempo_atual, entidade));
 		
 		//Verifica fila.
 		if(!Sistema.fila_balanca.isEmpty()){
 			recurso.ocupa();
 			double duracao = Config.dist_balanca.getVal();
-			Sistema.lista_eventos.add(new Pesagem(duracao, Sistema.tempo_atual, entidade, recurso));
+			Sistema.lista_eventos.add(new Pesagem(duracao, Sistema.tempo_atual, recurso.get_cliente(), recurso));
 		}
 		
 

@@ -28,7 +28,7 @@ public class Carregamento extends Evento{
 		if(!Sistema.fila_carregamento.isEmpty()){
 			recurso.ocupa();
 			double duracao = Config.dist_carregador.getVal();
-			Sistema.lista_eventos.add(new Carregamento(duracao, Sistema.tempo_atual, Sistema.fila_carregamento.remove(),recurso));
+			Sistema.lista_eventos.add(new Carregamento(duracao, Sistema.tempo_atual, recurso.get_cliente(),recurso));
 		}
 		
 	}

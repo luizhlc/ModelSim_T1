@@ -2,7 +2,7 @@ package evento;
 
 import entidades.Entidade;
 
-public abstract class Evento{
+public abstract class Evento implements Comparable{
 
 	protected double tempo_duração, tempo_disparo;
 	protected Entidade entidade;
@@ -16,12 +16,25 @@ public abstract class Evento{
 		return tempo_disparo;
 	}
 	abstract public void tratamento();
-
-	public int compareTo(Evento o) {
-		if(this.tempo_disparo<o.tempo_disparo)
-			return 1;
-		return -1;
+	
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof Evento))
+            return 0;
+		Evento n = (Evento)o;
+		if(this.tempo_disparo<n.tempo_disparo)
+			return -1;
+		return 1;
 	}
+	
+//	@Override
+//	public boolean equals(Object o) {
+//		if (!(o instanceof Evento))
+//            return false;
+//		Evento n = (Evento)o;
+//
+//        return this.tempo_disparo==n.tempo_disparo;
+//	}
 	
 	public String estatisticas(){
 		return "";
