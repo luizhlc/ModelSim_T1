@@ -1,5 +1,7 @@
 package Distribuicoes;
 
+import java.util.Random;
+
 public class Normal implements Distribuicao{
 	 
 	private double med, dp;
@@ -8,9 +10,10 @@ public class Normal implements Distribuicao{
 		dp = desvio_padrao;
 	}
 	@Override
-	public double getVal(double[] rand) {
-		double z1 = Math.sqrt(-2*Math.log(rand[0]))*Math.cos(2*Math.PI*rand[1]);
-//		double z2 = Math.sqrt(-2*Math.log(rand[1]))*Math.cos(2*Math.PI*rand[0]);
+	public double getVal() {
+		double r1 = new Random().nextDouble();
+		double r2 = new Random().nextDouble();
+		double z1 = Math.sqrt(-2*Math.log(r1))*Math.cos(2*Math.PI*r2);
 		return med+dp*z1;
 	}
 
