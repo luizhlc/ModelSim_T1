@@ -2,11 +2,15 @@ package view;
 
 import Distribuicoes.Constante;
 import Distribuicoes.Distribuicao;
+import Estruturas.ListaRecurso;
+import entidades.Recurso;
 import geral.Config;
 import geral.Hellport;
+import geral.OptionalConsumer;
 import geral.Sistema;
 
 import javax.swing.*;
+import java.util.Optional;
 
 /**
  * Created by decio on 17/05/16.
@@ -63,21 +67,22 @@ public class TelaSimulacao extends JFrame {
         updateInfo();
     }
 
-    public void updateInfo(){
-        this.balancaFila.setText(Sistema.fila_balanca.size()+"");
-        this.carregadorFila.setText(Sistema.fila_carregamento.size()+"");
+    public void updateInfo() {
+        this.balancaFila.setText(Sistema.fila_balanca.size() + "");
+        this.carregadorFila.setText(Sistema.fila_carregamento.size() + "");
+        
+        updateEstado(Sistema.carregadores, carregadorEstado);
+        updateEstado(Sistema.balancas, balancaEstado);
 
-        if(Sistema.balancas.stream().filter(b -> b.estaLivre()).findAny().isPresent()) {
-            this.balancaEstado.setText("Livre");
-        }else{
-            this.balancaEstado.setText("Ocupado");
-        }
+    }
 
-        if(Sistema.carregadores.stream().filter(c -> c.estaLivre()).findAny().isPresent()) {
-            this.carregadorEstado.setText("Livre");
-        }else{
-            this.carregadorEstado.setText("Ocupado");
-        }
+    public void updateEstado(ListaRecurso listaRecurso, JLabel label) {
+        Optional<Recurso> optRecurso = listaRecurso.stream().filter(b -> b.estaLivre()).findAny();
+        OptionalConsumer.of(optRecurso).ifPresent(a -> {
+            label.setText("Livre");
+        }).ifNotPresent(() -> {
+            label.setText("Ocupado");
+        });
     }
 
     public void parar() {
