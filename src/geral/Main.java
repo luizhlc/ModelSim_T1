@@ -23,8 +23,8 @@ public class Main {
 //		}
 //		System.out.println("banana");
 
-        System.out.print("çldjfçlakdssdjfklçasdflkjçsdafjlkçfsadljkç");
-		TelaSimulacao tela = new TelaSimulacao();
+        new Thread(new TelaSimulacao()).run();
+//		TelaSimulacao tela = new TelaSimulacao();
 	}
 
 }
