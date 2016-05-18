@@ -24,7 +24,10 @@ public abstract class Recurso {
 	}
 	
 	public void ocupa(){
-		cliente = entrada.remove();
+		if(!entrada.isEmpty()){
+			cliente = entrada.remove();
+		}
+
 		update();
 		livre=false;
 	}

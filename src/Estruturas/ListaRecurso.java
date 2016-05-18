@@ -1,19 +1,25 @@
 package Estruturas;
 
-import java.util.Vector;
 import entidades.Recurso;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class ListaRecurso {
 	
-	private Vector<Recurso> recursos;
-	
-	
+	private List<Recurso> recursos;
+
 	public Recurso recursoPos(int i){
-		return recursos.elementAt(i);
+		return recursos.get(i);
 	}
 
 	public ListaRecurso(){
-		recursos = new Vector<Recurso>();
+		recursos = new ArrayList<Recurso>();
+	}
+
+	public Stream<Recurso> stream(){
+		return recursos.stream();
 	}
 	
 	public void adicionaRecurso(Recurso r){
@@ -22,8 +28,8 @@ public class ListaRecurso {
 	
 	public Recurso pegaLivre(){
 		for(int i=0; i<recursos.size();i++){
-			if(recursos.elementAt(i).estaLivre()){
-				return recursos.elementAt(i);
+			if(recursos.get(i).estaLivre()){
+				return recursos.get(i);
 			}
 		}
 		return null;
