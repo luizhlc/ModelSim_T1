@@ -21,10 +21,14 @@ public class TelaSimulacao extends JFrame implements Runnable {
     private JButton iniciarButton;
     private JButton pararButton;
     private JTextArea textArea1;
-    private JLabel carregadorEstado;
-    private JLabel carregadorFila;
-    private JLabel balancaEstado;
-    private JLabel balancaFila;
+    private JLabel carregador1Estado;
+    private JLabel carregador1Fila;
+    private JLabel carregador2Estado;
+    private JLabel carregador2Fila;
+    private JLabel balanca1Estado;
+    private JLabel balanca1Fila;
+    private JLabel balanca2Estado;
+    private JLabel balanca2Fila;
 
     Sistema sistema = new Sistema();
     Distribuicao d = new Constante(2);
@@ -72,11 +76,11 @@ public class TelaSimulacao extends JFrame implements Runnable {
     }
 
     public void updateInfo() {
-        this.balancaFila.setText(Sistema.fila_balanca.size() + "");
-        this.carregadorFila.setText(Sistema.fila_carregamento.size() + "");
+        this.carregador2Fila.setText(Sistema.fila_balanca.size() + "");
+        this.carregador1Fila.setText(Sistema.fila_carregamento.size() + "");
 
-        updateEstado(Sistema.carregadores, carregadorEstado);
-        updateEstado(Sistema.balancas, balancaEstado);
+        updateEstado(Sistema.carregadores, carregador1Estado);
+        updateEstado(Sistema.balancas, carregador2Estado);
 
     }
 
