@@ -20,6 +20,10 @@ public class ListaRecurso {
 		recursos.add(r);
 	}
 	
+	public Recurso getRecurso(int i){
+		return recursos.get(i);
+	}
+	
 	public Recurso pegaLivre(){
 		for(int i=0; i<recursos.size();i++){
 			if(recursos.elementAt(i).estaLivre()){

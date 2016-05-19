@@ -20,7 +20,7 @@ public class Main {
 		for(int i=0; i<4;i++){
 			a.avancaTempo();
 		}
-		System.out.println("banana");
+		System.out.println(r.getReport());
 	}
 
 }

@@ -84,8 +84,50 @@ public class Sistema {
 		relatorio.set_timestamp();
 	}
 	
-	public String getReport(){
-		return "";
+	//PARA IMPRIMIR E COLORIR
+	
+	
+	public Vector<String>getFilaCarregador_toPrint(){
+		Vector<String> fila = new Vector<String>();
+		int size = fila_carregamento.size();
+		for(int i=0; i<size; i++){
+			Entidade r = fila_carregamento.remove();
+			fila.add(i,r.getNome());
+			fila_carregamento.add(r);
+		}
+		return fila;
+	}
+	
+	public Vector<String>getFilaBalanca_toPrint(){
+		Vector<String> fila = new Vector<String>();
+		int size = fila_balanca.size();
+		for(int i=0; i<size; i++){
+			Entidade r = fila_balanca.remove();
+			fila.add(i,r.getNome());
+			fila_balanca.add(r);
+		}
+		return fila;
+	}
+	
+	public String getEntidadeNaBalanca(){
+		Balanca b = (Balanca)balancas.pegaLivre();
+		if(b==null)
+			return "";
+		return b.get_cliente().getNome();
+	}
+	
+	public String getEntidadeNoCarregador(int i){
+		Carregador b = (Carregador)carregadores.getRecurso(i);
+		if(b.estaLivre()==true)
+			return "";
+		return b.get_cliente().getNome();
+	}
+	public Vector<String> getEntidadesViajando(){
+		Vector<String> fila = new Vector<String>();
+		for(int i=0;i<viajando.size();i++){
+			fila.add(viajando.elementAt(i).getNome());
+		}
+		return fila;
 	}
 
 }
