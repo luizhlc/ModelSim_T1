@@ -22,8 +22,8 @@ public class Sistema {
 	//CLASSES DA PUTARIA: tudo public static, pensar melhor como tratar os eventos.
 	public static Queue<Entidade> fila_carregamento;
 	public static Queue<Entidade> fila_balanca;
-	public static Vector<Entidade> entidades;
-	public static Vector<Entidade> viajando;
+	public static List<Entidade> entidades;
+	public static List<Entidade> viajando;
 	public static List<Evento> lista_eventos;
 	
 	public static double tempo_atual;
@@ -41,8 +41,8 @@ public class Sistema {
 		balancas = new ListaRecurso();
 		fila_carregamento = new LinkedList<Entidade>();
 		fila_balanca = new LinkedList<Entidade>();
-		entidades = new Vector<Entidade>();
-		viajando = new Vector<Entidade>();
+		entidades = new ArrayList<>();
+		viajando = new ArrayList<>();
 		
 		lista_eventos = new ArrayList<Evento>();
 		tempo_atual = 0;
@@ -87,8 +87,8 @@ public class Sistema {
 	//PARA IMPRIMIR E COLORIR
 	
 	
-	public Vector<String>getFilaCarregador_toPrint(){
-		Vector<String> fila = new Vector<String>();
+	public List<String>getFilaCarregador_toPrint(){
+		List<String> fila = new ArrayList<String>();
 		int size = fila_carregamento.size();
 		for(int i=0; i<size; i++){
 			Entidade r = fila_carregamento.remove();
@@ -98,8 +98,8 @@ public class Sistema {
 		return fila;
 	}
 	
-	public Vector<String>getFilaBalanca_toPrint(){
-		Vector<String> fila = new Vector<String>();
+	public List<String>getFilaBalanca_toPrint(){
+		List<String> fila = new ArrayList<String>();
 		int size = fila_balanca.size();
 		for(int i=0; i<size; i++){
 			Entidade r = fila_balanca.remove();
@@ -125,7 +125,7 @@ public class Sistema {
 	public Vector<String> getEntidadesViajando(){
 		Vector<String> fila = new Vector<String>();
 		for(int i=0;i<viajando.size();i++){
-			fila.add(viajando.elementAt(i).getNome());
+			fila.add(viajando.get(i).getNome());
 		}
 		return fila;
 	}

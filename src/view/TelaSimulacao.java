@@ -10,7 +10,9 @@ import geral.OptionalConsumer;
 import geral.Sistema;
 
 import javax.swing.*;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Created by decio on 17/05/16.
@@ -20,15 +22,13 @@ public class TelaSimulacao extends JFrame implements Runnable {
     private JButton avançarPassoButton;
     private JButton iniciarButton;
     private JButton pararButton;
-    private JTextArea textArea1;
     private JLabel carregador1Estado;
-    private JLabel carregador1Fila;
     private JLabel carregador2Estado;
-    private JLabel carregador2Fila;
     private JLabel balanca1Estado;
-    private JLabel balanca1Fila;
-    private JLabel balanca2Estado;
-    private JLabel balanca2Fila;
+    private JTextArea filaCarregamento;
+    private JTextArea filaPesagem;
+    private JLabel numFilaCarregamento;
+    private JLabel numFilaPesagem;
 
     Sistema sistema = new Sistema();
     Distribuicao d = new Constante(2);
@@ -76,12 +76,25 @@ public class TelaSimulacao extends JFrame implements Runnable {
     }
 
     public void updateInfo() {
-        this.carregador2Fila.setText(Sistema.fila_balanca.size() + "");
-        this.carregador1Fila.setText(Sistema.fila_carregamento.size() + "");
+
+        String filaCarregadorToPrint = getResultToPrint(sistema.getFilaBalanca_toPrint());
+        String filaBalancaToPrint = getResultToPrint(sistema.getFilaCarregador_toPrint());
+
+        this.filaCarregamento.setText(filaCarregadorToPrint);
+        this.filaPesagem.setText(filaBalancaToPrint);
+
+        String numFilaCarregamentoText = Sistema.fila_carregamento.size() + "";
+        numFilaCarregamento.setText("Fila carregamento (" + numFilaCarregamentoText + ")");
+        String numFilaBalancaText = Sistema.fila_balanca.size() + "";
+        numFilaPesagem.setText("Fila pesagem (" + numFilaBalancaText + ")");
 
         updateEstado(Sistema.carregadores, carregador1Estado);
         updateEstado(Sistema.balancas, carregador2Estado);
 
+    }
+
+    private String getResultToPrint(List<String> lista){
+        return lista.stream().reduce((recurso, resultado) -> recurso + resultado + "\n").orElse("");
     }
 
     public void updateEstado(ListaRecurso listaRecurso, JLabel label) {
