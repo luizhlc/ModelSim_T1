@@ -16,7 +16,7 @@ public class Transporte extends Evento{
 		update();
 		
 		//fim do transporte
-		
+		Sistema.viajando.remove(entidade);
 		Sistema.fila_carregamento.add(entidade);
 		
 		//verifica se recurso livre

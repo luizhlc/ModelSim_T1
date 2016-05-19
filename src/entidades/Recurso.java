@@ -48,11 +48,11 @@ public abstract class Recurso {
 		return livre;
 	}
 
-	double get_TaxaOcupacao(){
+	public double get_TaxaOcupacao(){
 		return tempo_servico/Sistema.tempo_atual;
 	}
 	
-	int getNroAtendidos(){
+	public int getNroAtendidos(){
 		return nro_atendidos;
 	}
 	

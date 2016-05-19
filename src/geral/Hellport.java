@@ -1,5 +1,7 @@
 package geral;
 
+import entidades.Balanca;
+
 public class Hellport {
 	private static Hellport relatorio;
 
@@ -36,7 +38,7 @@ public class Hellport {
 		timestamp_fila =0;
 
 		nro_transportes=0;
-		nro_Entidades_Sistema=0;
+		nro_Entidades_Sistema=Config.nroEntidades;
 		tmp_ciclo_max=-1;
 		tmp_ciclo_min=Double.MAX_VALUE;
 		tmp_ciclo_med=0;
@@ -140,5 +142,106 @@ public class Hellport {
 	}
 	public void update_nro_entidades_sistema(int d){
 		nro_Entidades_Sistema+=d;
+	}
+	
+	public double[] getTamanhoDaFila(){
+		double[] report = new double[3];
+		if(this.tamanho_filaB_min<tamanho_filaC_min)
+			report[0] = this.tamanho_filaB_min;
+		else
+			report[0] = this.tamanho_filaC_min;
+		
+		for(int i=0; i<Config.nroEntidades+1;i++){
+			
+		}
+		
+		report[1] = (tmp_filaB_med+tmp_filaC_med)/(nro_entidades_filaB+nro_entidades_filaC);
+		
+		
+		
+		if(tamanho_filaB_max>tamanho_filaC_max)
+			report[2] = this.tamanho_filaB_max;
+		else
+			report[2] = this.tamanho_filaC_max;
+		return report;
+	}
+	
+	public double getTaxaOcupacaoBalanca(){
+		double t = Sistema.balancas.getRecurso(0).get_TaxaOcupacao();
+		return t;
+	}
+	
+	public double getTaxaOcupacaoCarregador(int i){
+		double t = Sistema.carregadores.getRecurso(i).get_TaxaOcupacao();
+		return t;
+	}
+	
+	public double[] getTempoNaFila(){
+		double[] report = new double[3];
+		if(tmp_filaB_min<tmp_filaC_min)
+			report[0] = this.tmp_filaB_min;
+		else
+			report[0] = this.tmp_filaC_min;
+		
+		report[1] = (tmp_filaB_med+tmp_filaC_med)/(nro_entidades_filaB+nro_entidades_filaC);
+		
+		if(tmp_filaB_max>tmp_filaC_max)
+			report[2] = this.tmp_filaB_max;
+		else
+			report[2] = this.tmp_filaC_max;
+		
+		return report;
+	}
+	
+	public double[] getTempoCiclo(){
+		double[] report = new double[3];
+		report[0] = tmp_ciclo_min;
+		report[1] = tmp_ciclo_med/nro_transportes;
+		report[2] = tmp_ciclo_max;
+		return report;
+	}
+	
+	public int getNumeroTransportes(){
+		return this.nro_transportes;
+	}
+	
+	public int getNumeroEntidadesNoSistema(){
+		return this.nro_Entidades_Sistema;
+	}
+	
+	public String getReport(){
+		String report="";
+		report+="==========Número de entidades das filas==========\n";
+		report+="-Mínimo: "+1+";\n";
+		report+="-Médio: "+1+";\n";
+		report+="-Máximo: "+1+";\n\n";
+		
+		report+="==========Taxa Média de Ocupação==========\n";
+		report+="-Carregador 1: "+this.getTaxaOcupacaoCarregador(0)*100+"%;\n";
+		report+="-Carregador 2: "+this.getTaxaOcupacaoCarregador(1)*100+"%;\n";
+		report+="-Balança: "+this.getTaxaOcupacaoBalanca()*100+"%;\n\n";
+		
+		report+="==========Tempo de uma Entidade na Fila==========\n";
+		double[] tempo_na_fila = this.getTempoNaFila();
+		report+="-Mínimo: "+tempo_na_fila[0]+";\n";
+		report+="-Médio: "+tempo_na_fila[1]+";\n";
+		report+="-Máximo: "+tempo_na_fila[2]+";\n\n";
+		
+		report+="==========Tempo de Ciclo==========\n";
+		if(this.getNumeroTransportes()==0){
+			report+="Nenhum ciclo completado; \n\n";
+		}
+		else{
+			double[] tempo_de_ciclo = this.getTempoCiclo();
+			report+="-Mínimo: "+tempo_de_ciclo[0]+";\n";
+			report+="-Médio: "+tempo_de_ciclo[1]+";\n";
+			report+="-Máximo: "+tempo_de_ciclo[2]+";\n\n";
+		}
+		
+		report+="==========Outros==========\n";
+		report+="-Número de transportes: "+this.getNumeroTransportes()+";\n";
+		report+="-Entidades no Sistema: "+this.nro_Entidades_Sistema+";\n";
+		report+="-Tempo de simulação: "+Sistema.tempo_atual+";\n\n";
+		return report;
 	}
 }

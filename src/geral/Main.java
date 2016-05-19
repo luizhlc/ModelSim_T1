@@ -4,7 +4,6 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import Distribuicoes.Constante;
 import Distribuicoes.Distribuicao;
-import view.TelaSimulacao;
 
 public class Main {
 
