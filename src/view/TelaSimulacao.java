@@ -32,7 +32,6 @@ public class TelaSimulacao extends JFrame implements Runnable {
     private JLabel tempoSimulacao;
 
     Sistema sistema = new Sistema();
-    Distribuicao d = new Constante(2);
 
     boolean iniciado = false;
 
@@ -67,7 +66,6 @@ public class TelaSimulacao extends JFrame implements Runnable {
         Config.tmpSimulacao = 50;
         sistema.initialize();
 
-        Hellport r = Hellport.get_relatorio();
         for (int i = 0; i < 4; i++) {
             sistema.avancaTempo();
         }
@@ -78,8 +76,8 @@ public class TelaSimulacao extends JFrame implements Runnable {
 
     public void updateInfo() {
 
-        String filaCarregadorToPrint = getResultToPrint(sistema.getFilaBalanca_toPrint());
-        String filaBalancaToPrint = getResultToPrint(sistema.getFilaCarregador_toPrint());
+        String filaCarregadorToPrint = getResultToPrint(sistema.getFilaCarregador_toPrint());
+        String filaBalancaToPrint = getResultToPrint(sistema.getFilaBalanca_toPrint());
         this.filaCarregamento.setText(filaCarregadorToPrint);
         this.filaPesagem.setText(filaBalancaToPrint);
 
@@ -96,7 +94,7 @@ public class TelaSimulacao extends JFrame implements Runnable {
     }
 
     private String getResultToPrint(List<String> lista){
-        return lista.stream().reduce((recurso, resultado) -> recurso + resultado + "\n").orElse("");
+        return lista.stream().reduce((recurso, resultado) -> recurso + "\n" + resultado).orElse("");
     }
 
     public void updateEstado(ListaRecurso listaRecurso, JLabel label) {
@@ -113,7 +111,6 @@ public class TelaSimulacao extends JFrame implements Runnable {
     }
 
     public void avancar() {
-        Hellport r = Hellport.get_relatorio();
         sistema.avancaTempo();
         updateInfo();
         System.out.println("avançou");
