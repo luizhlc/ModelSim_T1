@@ -29,6 +29,7 @@ public class TelaSimulacao extends JFrame implements Runnable {
     private JTextArea filaPesagem;
     private JLabel numFilaCarregamento;
     private JLabel numFilaPesagem;
+    private JLabel tempoSimulacao;
 
     Sistema sistema = new Sistema();
     Distribuicao d = new Constante(2);
@@ -79,7 +80,6 @@ public class TelaSimulacao extends JFrame implements Runnable {
 
         String filaCarregadorToPrint = getResultToPrint(sistema.getFilaBalanca_toPrint());
         String filaBalancaToPrint = getResultToPrint(sistema.getFilaCarregador_toPrint());
-
         this.filaCarregamento.setText(filaCarregadorToPrint);
         this.filaPesagem.setText(filaBalancaToPrint);
 
@@ -90,6 +90,8 @@ public class TelaSimulacao extends JFrame implements Runnable {
 
         updateEstado(Sistema.carregadores, carregador1Estado);
         updateEstado(Sistema.balancas, carregador2Estado);
+
+        tempoSimulacao.setText(Sistema.tempo_atual+"");
 
     }
 
