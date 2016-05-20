@@ -5,26 +5,24 @@ import Distribuicoes.Distribuicao;
 import Estruturas.ListaRecurso;
 import entidades.Recurso;
 import geral.Config;
-import geral.Hellport;
 import geral.OptionalConsumer;
 import geral.Sistema;
 
 import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * Created by decio on 17/05/16.
  */
-public class TelaSimulacao extends JFrame implements Runnable {
+public class TelaSimulacao extends JFrame implements Runnable{
     private JPanel panel1;
     private JButton avançarPassoButton;
     private JButton iniciarButton;
     private JButton pararButton;
     private JLabel carregador1Estado;
     private JLabel carregador2Estado;
-    private JLabel balanca1Estado;
+    private JLabel balancaEstado;
     private JTextArea filaCarregamento;
     private JTextArea filaPesagem;
     private JLabel numFilaCarregamento;
@@ -58,19 +56,8 @@ public class TelaSimulacao extends JFrame implements Runnable {
     }
 
     public void iniciar() {
-        Distribuicao d = new Constante(2);
-        Config.dist_balanca = d;
-        Config.dist_carregador = d;
-        Config.dist_transporte = d;
-        Config.nroEntidades = 10;
-        Config.tmpSimulacao = 50;
         sistema.initialize();
-
-        for (int i = 0; i < 4; i++) {
-            sistema.avancaTempo();
-        }
         updateInfo();
-
         iniciado = true;
     }
 
@@ -86,8 +73,9 @@ public class TelaSimulacao extends JFrame implements Runnable {
         String numFilaBalancaText = Sistema.fila_balanca.size() + "";
         numFilaPesagem.setText("Fila pesagem (" + numFilaBalancaText + ")");
 
-        updateEstado(Sistema.carregadores, carregador1Estado);
-        updateEstado(Sistema.balancas, carregador2Estado);
+        carregador1Estado.setText(updateEstado(Sistema.carregadores.getRecurso(0)));
+        carregador2Estado.setText(updateEstado(Sistema.carregadores.getRecurso(1)));
+        balancaEstado.setText(updateEstado(Sistema.balancas.getRecurso(0)));
 
         tempoSimulacao.setText(Sistema.tempo_atual+"");
 
@@ -97,13 +85,11 @@ public class TelaSimulacao extends JFrame implements Runnable {
         return lista.stream().reduce((recurso, resultado) -> recurso + "\n" + resultado).orElse("");
     }
 
-    public void updateEstado(ListaRecurso listaRecurso, JLabel label) {
-        Optional<Recurso> optRecurso = listaRecurso.stream().filter(b -> b.estaLivre()).findAny();
-        OptionalConsumer.of(optRecurso).ifPresent(a -> {
-            label.setText("Livre");
-        }).ifNotPresent(() -> {
-            label.setText("Ocupado");
-        });
+    public String updateEstado(Recurso recurso) {
+        if(recurso.estaLivre())
+            return "Livre";
+        else
+            return "Ocupado";
     }
 
     public void parar() {
@@ -121,7 +107,11 @@ public class TelaSimulacao extends JFrame implements Runnable {
     @Override
     public void run() {
         long currentTime = 0;
-        while (true) {
+        while (Config.tmpSimulacao >= Sistema.tempo_atual) {
+            System.out.print(Config.tmpSimulacao+"    ");
+            System.out.println(Sistema.tempo_atual);
+            rootPane.repaint();
+            validate();
             long elapsedTime = System.currentTimeMillis();
             if (elapsedTime - currentTime >= passo) {
                 currentTime = elapsedTime;

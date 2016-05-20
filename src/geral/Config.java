@@ -7,6 +7,4 @@ public class Config {
 	public static Distribuicao dist_transporte;
 	public static int nroEntidades;
 	public static int tmpSimulacao;
-
-	
 }
