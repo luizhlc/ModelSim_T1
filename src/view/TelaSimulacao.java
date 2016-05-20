@@ -23,6 +23,10 @@ public class TelaSimulacao extends JFrame implements Runnable{
     private JLabel numFilaCarregamento;
     private JLabel numFilaPesagem;
     private JLabel tempoSimulacao;
+    private JTextArea caminhoesBalanca;
+    private JTextArea caminhoesViajando;
+    private JTextArea caminhaoCarregador1;
+    private JTextArea caminhaoCarregador2;
 
     Sistema sistema = new Sistema();
 
@@ -63,6 +67,13 @@ public class TelaSimulacao extends JFrame implements Runnable{
         this.filaCarregamento.setText(filaCarregadorToPrint);
         this.filaPesagem.setText(filaBalancaToPrint);
 
+        this.caminhaoCarregador1.setText(sistema.getEntidadeNoCarregador(0));
+        this.caminhaoCarregador2.setText(sistema.getEntidadeNoCarregador(1));
+
+//        this.caminhoesBalanca.setText(sistema.getEntidadeNaBalanca());
+
+        this.caminhoesViajando.setText(getResultToPrint(sistema.getEntidadesViajando()));
+
         String numFilaCarregamentoText = Sistema.fila_carregamento.size() + "";
         numFilaCarregamento.setText("Fila carregamento (" + numFilaCarregamentoText + ")");
         String numFilaBalancaText = Sistema.fila_balanca.size() + "";
@@ -102,14 +113,16 @@ public class TelaSimulacao extends JFrame implements Runnable{
     @Override
     public void run() {
         long currentTime = 0;
-        while (Config.tmpSimulacao >= Sistema.tempo_atual) {
-            System.out.print(Config.tmpSimulacao+"    ");
-            System.out.println(Sistema.tempo_atual);
-            rootPane.repaint();
-            validate();
+//        while () {
+        while(true){
             long elapsedTime = System.currentTimeMillis();
             if (elapsedTime - currentTime >= passo) {
                 currentTime = elapsedTime;
+                if(Config.tmpSimulacao < Sistema.tempo_atual){
+                    System.out.println("tomar no cu");
+                    JOptionPane.showMessageDialog(null, "A simulação terminou!");
+                    break;
+                }
                 System.out.println("tic tac");
                 if (iniciado) {
                     avancar();
