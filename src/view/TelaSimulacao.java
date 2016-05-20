@@ -1,16 +1,11 @@
 package view;
 
-import Distribuicoes.Constante;
-import Distribuicoes.Distribuicao;
-import Estruturas.ListaRecurso;
 import entidades.Recurso;
 import geral.Config;
-import geral.OptionalConsumer;
 import geral.Sistema;
 
 import javax.swing.*;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by decio on 17/05/16.
