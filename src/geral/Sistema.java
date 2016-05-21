@@ -130,5 +130,14 @@ public class Sistema {
 		}
 		return fila;
 	}
+	
+	public Vector<String> getEventos(){
+		Vector<String> fila = new Vector<String>();
+		Collections.sort(lista_eventos);
+		for(int i =0; i<lista_eventos.size();i++){
+			fila.add(i, lista_eventos.get(i).toPrint());
+		}
+		return fila;
+	}
 
 }

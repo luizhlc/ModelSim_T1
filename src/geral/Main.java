@@ -1,5 +1,7 @@
 package geral;
 
+import java.util.Vector;
+
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import Distribuicoes.Constante;
@@ -17,9 +19,15 @@ public class Main {
 		Config.tmpSimulacao=50;
 		a.initialize();
 		Relatorio r = Relatorio.get_relatorio();
-		for(int i=0; i<900;i++){
+		for(int i=0; i<4;i++){
 			a.avancaTempo();
+		
 		}
+		Vector<String> v = a.getEventos();
+		for(int i =0; i<v.size();i++){
+			System.out.println(v.elementAt(i));
+		}
+		
 		System.out.println(r.getReport());
 	}
 
