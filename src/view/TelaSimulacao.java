@@ -23,21 +23,27 @@ public class TelaSimulacao extends JFrame implements Runnable{
     private JLabel numFilaCarregamento;
     private JLabel numFilaPesagem;
     private JLabel tempoSimulacao;
-    private JTextArea caminhoesBalanca;
     private JTextArea caminhoesViajando;
     private JTextArea caminhaoCarregador1;
     private JTextArea caminhaoCarregador2;
+    private JLabel numViajando;
+    private JTextArea caminhoesBalanca;
+    private JButton resetarButton;
+    private JSlider slider;
+    long passoSimulacao = 500;
 
     Sistema sistema = new Sistema();
 
     boolean iniciado = false;
+
+    volatile boolean isInterrupted = false;
 
     public TelaSimulacao() {
         super("Simulação");
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 500);
+        setSize(1000, 600);
         this.setContentPane(panel1);
         setVisible(true);
 
@@ -52,11 +58,32 @@ public class TelaSimulacao extends JFrame implements Runnable{
         avançarPassoButton.addActionListener(a -> {
             avancar();
         });
+
+        resetarButton.addActionListener(a -> {
+            reiniciar();
+        });
+
+        slider.setMinimum(0);
+        slider.setMaximum(3000);
+        slider.addChangeListener(l -> {
+            passoSimulacao = 3000 - slider.getValue();
+            System.out.println("Passo: " + passoSimulacao);
+
+        });
+    }
+
+    public void reiniciar() {
+        new TelaEntradaParametros();
+        this.setVisible(false);
+        isInterrupted = true;
+    }
+
+    public void init(){
+        sistema.initialize();
+        updateInfo();
     }
 
     public void iniciar() {
-        sistema.initialize();
-        updateInfo();
         iniciado = true;
     }
 
@@ -69,15 +96,13 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
         this.caminhaoCarregador1.setText(sistema.getEntidadeNoCarregador(0));
         this.caminhaoCarregador2.setText(sistema.getEntidadeNoCarregador(1));
-
-//        this.caminhoesBalanca.setText(sistema.getEntidadeNaBalanca());
+        this.caminhoesBalanca.setText(sistema.getEntidadeNaBalanca());
 
         this.caminhoesViajando.setText(getResultToPrint(sistema.getEntidadesViajando()));
 
-        String numFilaCarregamentoText = Sistema.fila_carregamento.size() + "";
-        numFilaCarregamento.setText("Fila carregamento (" + numFilaCarregamentoText + ")");
-        String numFilaBalancaText = Sistema.fila_balanca.size() + "";
-        numFilaPesagem.setText("Fila pesagem (" + numFilaBalancaText + ")");
+        this.fillNum("Fila carregamento", numFilaCarregamento, Sistema.fila_carregamento.size());
+        this.fillNum("Fila pesagem", numFilaPesagem, Sistema.fila_balanca.size());
+        this.fillNum("Caminhções viajando", numViajando, Sistema.viajando.size());
 
         carregador1Estado.setText(updateEstado(Sistema.carregadores.getRecurso(0)));
         carregador2Estado.setText(updateEstado(Sistema.carregadores.getRecurso(1)));
@@ -87,15 +112,16 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
     }
 
+    private void fillNum(String label, JLabel jLabelToChange, int size) {
+        jLabelToChange.setText(label + " (" + size + ")");
+    }
+
     private String getResultToPrint(List<String> lista){
         return lista.stream().reduce((recurso, resultado) -> recurso + "\n" + resultado).orElse("");
     }
 
     public String updateEstado(Recurso recurso) {
-        if(recurso.estaLivre())
-            return "Livre";
-        else
-            return "Ocupado";
+        return recurso.estaLivre() ? "Livre" : "Ocupado";
     }
 
     public void parar() {
@@ -108,25 +134,20 @@ public class TelaSimulacao extends JFrame implements Runnable{
         System.out.println("avançou");
     }
 
-    long passo = 500;
-
     @Override
     public void run() {
         long currentTime = 0;
-//        while () {
-        while(true){
+        while(!isInterrupted){
             long elapsedTime = System.currentTimeMillis();
-            if (elapsedTime - currentTime >= passo) {
-                currentTime = elapsedTime;
-                if(Config.tmpSimulacao < Sistema.tempo_atual){
-                    System.out.println("tomar no cu");
-                    JOptionPane.showMessageDialog(null, "A simulação terminou!");
-                    break;
-                }
-                System.out.println("tic tac");
+            if (elapsedTime - currentTime >= passoSimulacao) {
                 if (iniciado) {
                     avancar();
                 }
+                if(Config.tmpSimulacao < Sistema.tempo_atual){
+                    JOptionPane.showMessageDialog(null, "A simulação terminou!");
+                    break;
+                }
+                currentTime = elapsedTime;
             }
         }
     }

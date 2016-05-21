@@ -85,6 +85,7 @@ public class TelaEntradaParametros extends JFrame {
             Config.dist_transporte= handleDistribuicao(comboDistribuicaoCarregador2, 2);
             Config.tmpSimulacao = Integer.parseInt(this.tempoTotalSimuladoTextField.getText());
             Config.nroEntidades = Integer.parseInt(this.numCaminhoes.getText());
+            telaSimulacao.init();
             new Thread(telaSimulacao).start();
             this.setVisible(false);
         });

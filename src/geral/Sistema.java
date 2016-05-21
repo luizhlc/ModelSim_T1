@@ -78,7 +78,7 @@ public class Sistema {
 	}
 	
 	private void update(){
-		Hellport relatorio = Hellport.get_relatorio();
+		Relatorio relatorio = Relatorio.get_relatorio();
 		relatorio.update_tamanho_filaC(fila_carregamento.size());
 		relatorio.update_tamanho_filaB(fila_balanca.size());
 		relatorio.set_timestamp();
@@ -110,8 +110,8 @@ public class Sistema {
 	}
 	
 	public String getEntidadeNaBalanca(){
-		Balanca b = (Balanca)balancas.pegaLivre();
-		if(b==null)
+		Balanca b = (Balanca)balancas.getRecurso(0);
+		if(b.estaLivre())
 			return "";
 		return b.get_cliente().getNome();
 	}
