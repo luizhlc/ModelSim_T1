@@ -21,7 +21,6 @@ public class Pesagem extends Evento{
 		recurso.libera(tempo_duração);
 		double duracao_transporte = Config.dist_transporte.getVal();
 		Sistema.lista_eventos.add(new Transporte(duracao_transporte, Sistema.tempo_atual, entidade));
-		Sistema.viajando.add(entidade);
 		
 		//Verifica fila.
 		if(!Sistema.fila_balanca.isEmpty()){

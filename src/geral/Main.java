@@ -17,7 +17,7 @@ public class Main {
 		Config.tmpSimulacao=50;
 		a.initialize();
 		Hellport r = Hellport.get_relatorio();
-		for(int i=0; i<4;i++){
+		for(int i=0; i<900;i++){
 			a.avancaTempo();
 		}
 		System.out.println(r.getReport());
