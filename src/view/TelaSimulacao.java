@@ -38,7 +38,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
     Sistema sistema = new Sistema();
 
-    boolean iniciado = false;
+    volatile boolean iniciado = false;
 
     volatile boolean isInterrupted = false;
 
@@ -67,7 +67,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
             reiniciar();
         });
 
-        slider.setMinimum(0);
+        slider.setMinimum(1);
         slider.setMaximum(3000);
         slider.addChangeListener(l -> {
             passoSimulacao = 3000 - slider.getValue();
@@ -166,11 +166,16 @@ public class TelaSimulacao extends JFrame implements Runnable{
                 if (iniciado) {
                     avancar();
                 }
-                if(Config.tmpSimulacao < Sistema.tempo_atual){
+                if(Config.tmpSimulacao <= Sistema.tempo_atual){
                     int input = JOptionPane.showOptionDialog(null, "A simulação terminou!\nGerar relatório?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
                     if(input == JOptionPane.OK_OPTION) {
                         FileWriter.generateTxt(Relatorio.get_relatorio().getReport());
+                    }
+
+                    input = JOptionPane.showOptionDialog(null, "Deseja simular novamente?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                    if(input == JOptionPane.OK_OPTION) {
+                        reiniciar();
                     }
                     break;
                 }
