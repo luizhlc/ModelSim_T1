@@ -3,7 +3,7 @@ package entidades;
 import java.util.Collection;
 import java.util.Queue;
 
-import geral.Hellport;
+import geral.Relatorio;
 import geral.Sistema;
 
 public class Balanca extends Recurso{
@@ -14,7 +14,7 @@ public class Balanca extends Recurso{
 	
 	@Override
 	protected void update(){
-		Hellport relatorio = Hellport.get_relatorio();
+		Relatorio relatorio = Relatorio.get_relatorio();
 		relatorio.update_tmp_filaB(Sistema.tempo_atual-cliente.tempo_fila);
 	}
 	

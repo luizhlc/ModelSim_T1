@@ -3,7 +3,7 @@ package evento;
 import entidades.Entidade;
 import entidades.Recurso;
 import geral.Config;
-import geral.Hellport;
+import geral.Relatorio;
 import geral.Sistema;
 
 public class Transporte extends Evento{
@@ -31,7 +31,7 @@ public class Transporte extends Evento{
 	
 	@Override
 	protected void update(){
-		Hellport relatorio = Hellport.get_relatorio();
+		Relatorio relatorio = Relatorio.get_relatorio();
 		relatorio.update_tmp_ciclo(Sistema.tempo_atual-entidade.get_timestamp_ciclo());
 		relatorio.update_nro_entidades_sistema(1);
 		

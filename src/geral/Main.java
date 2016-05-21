@@ -16,7 +16,7 @@ public class Main {
 		Config.nroEntidades=10;
 		Config.tmpSimulacao=50;
 		a.initialize();
-		Hellport r = Hellport.get_relatorio();
+		Relatorio r = Relatorio.get_relatorio();
 		for(int i=0; i<900;i++){
 			a.avancaTempo();
 		}

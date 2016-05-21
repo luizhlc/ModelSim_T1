@@ -2,8 +2,8 @@ package geral;
 
 import entidades.Balanca;
 
-public class Hellport {
-	private static Hellport relatorio;
+public class Relatorio {
+	private static Relatorio relatorio;
 
 	private double timestamp_fila;
 	private int nro_transportes;
@@ -32,7 +32,7 @@ public class Hellport {
 	private double[] tamanho_tempo_filaC;
 	private double[] tamanho_tempo_filaB;
 
-	private Hellport(){}
+	private Relatorio(){}
 
 	public void reset(){
 		timestamp_fila =0;
@@ -67,9 +67,9 @@ public class Hellport {
 		}
 	}
 
-	public static Hellport get_relatorio(){
+	public static Relatorio get_relatorio(){
 		if(relatorio==null){
-			relatorio = new Hellport();
+			relatorio = new Relatorio();
 			relatorio.reset();
 		}
 		return relatorio;
