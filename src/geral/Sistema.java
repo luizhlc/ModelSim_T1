@@ -55,6 +55,7 @@ public class Sistema {
 		for(int i = 0;i<Config.nroEntidades;i++){
 			String nome = "caminhao_"+(i+1);
 			entidades.add(new Entidade(nome));
+			
 			fila_carregamento.add(entidades.get(i));
 		}
 		

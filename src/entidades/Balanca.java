@@ -15,7 +15,7 @@ public class Balanca extends Recurso{
 	@Override
 	protected void update(){
 		Relatorio relatorio = Relatorio.get_relatorio();
-		relatorio.update_tmp_filaB(Sistema.tempo_atual-cliente.tempo_fila);
+		relatorio.update_tmp_filaB(Sistema.tempo_atual-cliente.get_timestamp_fila());
 	}
 	
 }

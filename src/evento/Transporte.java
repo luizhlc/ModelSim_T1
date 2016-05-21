@@ -18,7 +18,6 @@ public class Transporte extends Evento{
 		//fim do transporte
 		Sistema.viajando.remove(entidade);
 		Sistema.fila_carregamento.add(entidade);
-		
 		//verifica se recurso livre
 		Recurso rec = Sistema.carregadores.pegaLivre();
 		if(rec!=null){
@@ -36,5 +35,6 @@ public class Transporte extends Evento{
 		relatorio.update_nro_entidades_sistema(1);
 		
 		entidade.set_timestamp_ciclo();
+		entidade.set_timestamp_fila();
 	}
 }
