@@ -37,4 +37,10 @@ public class Transporte extends Evento{
 		entidade.set_timestamp_ciclo();
 		entidade.set_timestamp_fila();
 	}
+	
+	@Override
+	public String toPrint() {
+		String retorno=""+tempo_disparo +" | Transporte | "+entidade.getNome()+";\n";
+		return retorno;
+	}
 }

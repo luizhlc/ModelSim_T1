@@ -29,6 +29,8 @@ public abstract class Evento implements Comparable{
 	
 	abstract protected void update();
 	
+	public abstract String toPrint();
+	
 	public String estatisticas(){
 		return "";
 	}

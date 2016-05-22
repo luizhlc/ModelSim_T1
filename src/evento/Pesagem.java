@@ -37,4 +37,10 @@ public class Pesagem extends Evento{
 		Relatorio relatorio = Relatorio.get_relatorio();
 		relatorio.update_nro_entidades_sistema(-1);
 	}
+	
+	@Override
+	public String toPrint() {
+		String retorno=""+tempo_disparo +" | Pesagem | "+entidade.getNome()+";\n";
+		return retorno;
+	}
 }

@@ -41,4 +41,10 @@ public class Carregamento extends Evento{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String toPrint() {
+		String retorno=""+tempo_disparo +" | Carregamento | "+entidade.getNome()+";\n";
+		return retorno;
+	}
 }
