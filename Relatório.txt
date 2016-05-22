@@ -4,22 +4,22 @@
 -Máximo: 1;
 
 ==========Taxa Média de Ocupação==========
--Carregador 1: 85.71428571428571%;
--Carregador 2: 85.71428571428571%;
--Balança: 71.42857142857143%;
+-Carregador 1: 83.33333333333334%;
+-Carregador 2: 83.33333333333334%;
+-Balança: 66.66666666666666%;
 
 ==========Tempo de uma Entidade na Fila==========
 -Mínimo: 0.0;
--Médio: 6.3;
--Máximo: 12.0;
+-Médio: 4.235294117647059;
+-Máximo: 10.0;
 
 ==========Tempo de Ciclo==========
 -Mínimo: 6.0;
--Médio: 10.0;
--Máximo: 14.0;
+-Médio: 9.0;
+-Máximo: 12.0;
 
 ==========Outros==========
--Número de transportes: 5;
+-Número de transportes: 4;
 -Entidades no Sistema: 12;
--Tempo de simulação: 14.0;
+-Tempo de simulação: 12.0;
 

@@ -7,6 +7,9 @@ import geral.Relatorio;
 import geral.Sistema;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -34,6 +37,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
     private JButton resetarButton;
     private JSlider slider;
     private JTextArea relatorio;
+    private JTextArea eventosFuturos;
     long passoSimulacao = 500;
 
     Sistema sistema = new Sistema();
@@ -114,6 +118,8 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
         tempoSimulacao.setText(Sistema.tempo_atual+"");
 
+        this.eventosFuturos.setText(getResultToPrint(sistema.getEventos()));
+
         updateRelatorio();
     }
 
@@ -121,6 +127,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
         DecimalFormat format = new DecimalFormat("###.###");
 
         String numEntidades = format.format(Relatorio.get_relatorio().getNumeroEntidadesNoSistema())+"";
+        String numTransportes = Relatorio.get_relatorio().getNumeroTransportes()+"";
         String mediaOcupacaoCarregador1 = format.format(Relatorio.get_relatorio().getTaxaOcupacaoCarregador(0))+"";
         String mediaOcupacaoCarregador2 = format.format(Relatorio.get_relatorio().getTaxaOcupacaoCarregador(1))+"";
         String mediaOcupacaoBalanca = format.format(Relatorio.get_relatorio().getTaxaOcupacaoBalanca())+"";
@@ -128,12 +135,14 @@ public class TelaSimulacao extends JFrame implements Runnable{
         String tempoCiclo = format.format(Relatorio.get_relatorio().getTempoCiclo()[1])+"";
 
         relatorio.setText(
-                "Número de entidades no sistema: " + numEntidades + "\n" +
-                "Taxa média de ocupação do carregador 1: " + mediaOcupacaoCarregador1 + "\n" +
-                "Taxa média de ocupação do carregador 2: " + mediaOcupacaoCarregador2 + "\n" +
-                "Taxa média de ocupação da balança: " + mediaOcupacaoBalanca + "\n" +
-                "Tempo médio de uma entidade na fila: " + tempoEntidadeFila + "\n" +
-                "Taxa médio de ciclo: " + tempoCiclo);
+            "Número de entidades no sistema: " + numEntidades + "\n" +
+            "Número de transportes: " + numTransportes + "\n" +
+            "Taxa média de ocupação do carregador 1: " + mediaOcupacaoCarregador1 + "\n" +
+            "Taxa média de ocupação do carregador 2: " + mediaOcupacaoCarregador2 + "\n" +
+            "Taxa média de ocupação da balança: " + mediaOcupacaoBalanca + "\n" +
+            "Tempo médio de uma entidade na fila: " + tempoEntidadeFila + "\n" +
+            "Taxa médio de ciclo: " + tempoCiclo
+        );
     }
 
     private void fillNum(String label, JLabel jLabelToChange, int size) {
@@ -171,6 +180,17 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
                     if(input == JOptionPane.OK_OPTION) {
                         FileWriter.generateTxt(Relatorio.get_relatorio().getReport());
+                        JOptionPane.showMessageDialog(null, "O relatório foi gerado no diretório raiz desde projeto com o nome Relatório.txt!");
+                    }
+
+                    input = JOptionPane.showOptionDialog(null, "Deseja visualizá-lo?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+                    if(input == JOptionPane.OK_OPTION) {
+                        File file = new File("Relatório.txt");
+                        try {
+                            Desktop.getDesktop().open(file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     input = JOptionPane.showOptionDialog(null, "Deseja simular novamente?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
