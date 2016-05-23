@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -208,7 +209,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
         int input = JOptionPane.showOptionDialog(null, "Deseja visualizá-lo?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
         if(input == JOptionPane.OK_OPTION) {
-            File file = new File("Relatório.txt");
+            File file = new File(Paths.get(".").toAbsolutePath().normalize().toString()+"/Relatório.txt");
             try {
                 Desktop.getDesktop().open(file);
             } catch (IOException e) {
