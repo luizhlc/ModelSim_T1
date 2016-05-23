@@ -144,25 +144,33 @@ public class Relatorio {
 		nro_Entidades_Sistema+=d;
 	}
 	
-	public double[] getTamanhoDaFila(){
+	public double[] getTamanhoDaFilaC(){
 		double[] report = new double[3];
-		if(this.tamanho_filaB_min<tamanho_filaC_min)
-			report[0] = this.tamanho_filaB_min;
-		else
-			report[0] = this.tamanho_filaC_min;
-		
+		report[0] = this.tamanho_filaC_min;
+		double sum =0;
 		for(int i=0; i<Config.nroEntidades+1;i++){
-			
+			sum += i*tamanho_tempo_filaC[i];
 		}
 		
-		report[1] = (tmp_filaB_med+tmp_filaC_med)/(nro_entidades_filaB+nro_entidades_filaC);
+		report[1] = sum/Sistema.tempo_atual;
 		
+		report[2] = this.tamanho_filaC_max;
 		
+		return report;
+	}
+	
+	public double[] getTamanhoDaFilaB(){
+		double[] report = new double[3];
+		report[0] = this.tamanho_filaB_min;
+		double sum =0;
+		for(int i=0; i<Config.nroEntidades+1;i++){
+			sum += i*tamanho_tempo_filaB[i];
+		}
 		
-		if(tamanho_filaB_max>tamanho_filaC_max)
-			report[2] = this.tamanho_filaB_max;
-		else
-			report[2] = this.tamanho_filaC_max;
+		report[1] = sum/Sistema.tempo_atual;
+		
+		report[2] = this.tamanho_filaB_max;
+		
 		return report;
 	}
 	
@@ -176,20 +184,24 @@ public class Relatorio {
 		return t;
 	}
 	
-	public double[] getTempoNaFila(){
+	public double getTaxaOcupacaoCarregadorMedio(){
+		double t = (Sistema.carregadores.getRecurso(0).get_TaxaOcupacao()+Sistema.carregadores.getRecurso(1).get_TaxaOcupacao())/2;
+		return t;
+	}
+	
+	public double[] getTempoNaFilaC(){
 		double[] report = new double[3];
-		if(tmp_filaB_min<tmp_filaC_min)
-			report[0] = this.tmp_filaB_min;
-		else
-			report[0] = this.tmp_filaC_min;
-		
-		report[1] = (tmp_filaB_med+tmp_filaC_med)/(nro_entidades_filaB+nro_entidades_filaC);
-		
-		if(tmp_filaB_max>tmp_filaC_max)
-			report[2] = this.tmp_filaB_max;
-		else
-			report[2] = this.tmp_filaC_max;
-		
+		report[0] = this.tmp_filaC_min;
+		report[1] = tmp_filaC_med/nro_entidades_filaC;
+		report[2] = this.tmp_filaC_max;
+		return report;
+	}
+	
+	public double[] getTempoNaFilaB(){
+		double[] report = new double[3];
+		report[0] = this.tmp_filaB_min;
+		report[1] = tmp_filaB_med/nro_entidades_filaB;
+		report[2] = this.tmp_filaB_max;
 		return report;
 	}
 	
@@ -212,17 +224,32 @@ public class Relatorio {
 	public String getReport(){
 		String report="";
 		report+="==========Número de entidades das filas==========\n";
-		report+="-Mínimo: "+1+";\n";
-		report+="-Médio: "+1+";\n";
-		report+="-Máximo: "+1+";\n\n";
+		report+="**Carregador**\n";
+		double[] tamanho_na_fila = this.getTamanhoDaFilaC();
+		report+="-Mínimo: "+tamanho_na_fila[0]+";\n";
+		report+="-Médio: "+tamanho_na_fila[1]+";\n";
+		report+="-Máximo: "+tamanho_na_fila[2]+";\n\n";
+		report+="**Balança**\n";
+		tamanho_na_fila = this.getTamanhoDaFilaB();
+		report+="-Mínimo: "+tamanho_na_fila[0]+";\n";
+		report+="-Médio: "+tamanho_na_fila[1]+";\n";
+		report+="-Máximo: "+tamanho_na_fila[2]+";\n\n";
+		
 		
 		report+="==========Taxa Média de Ocupação==========\n";
 		report+="-Carregador 1: "+this.getTaxaOcupacaoCarregador(0)*100+"%;\n";
 		report+="-Carregador 2: "+this.getTaxaOcupacaoCarregador(1)*100+"%;\n";
+		report+="-Carregadores (Médio): "+this.getTaxaOcupacaoCarregadorMedio()*100+"%;\n";
 		report+="-Balança: "+this.getTaxaOcupacaoBalanca()*100+"%;\n\n";
 		
 		report+="==========Tempo de uma Entidade na Fila==========\n";
-		double[] tempo_na_fila = this.getTempoNaFila();
+		report+="**Carregador**\n";
+		double[] tempo_na_fila = this.getTempoNaFilaC();
+		report+="-Mínimo: "+tempo_na_fila[0]+";\n";
+		report+="-Médio: "+tempo_na_fila[1]+";\n";
+		report+="-Máximo: "+tempo_na_fila[2]+";\n\n";
+		report+="**Balança**\n";
+		tempo_na_fila = this.getTamanhoDaFilaB();
 		report+="-Mínimo: "+tempo_na_fila[0]+";\n";
 		report+="-Médio: "+tempo_na_fila[1]+";\n";
 		report+="-Máximo: "+tempo_na_fila[2]+";\n\n";
