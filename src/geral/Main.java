@@ -19,7 +19,7 @@ public class Main {
 		Config.tmpSimulacao=50;
 		a.initialize();
 		Relatorio r = Relatorio.get_relatorio();
-		for(int i=0; i<4;i++){
+		for(int i=0; i<50;i++){
 			a.avancaTempo();
 		
 		}
