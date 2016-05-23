@@ -38,6 +38,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
     private JSlider slider;
     private JTextArea relatorio;
     private JTextArea eventosFuturos;
+    private JButton relatorioButton;
     long passoSimulacao = 500;
 
     Sistema sistema = new Sistema();
@@ -51,7 +52,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 600);
+        setSize(1000, 800);
         this.setContentPane(panel1);
         setVisible(true);
 
@@ -69,6 +70,10 @@ public class TelaSimulacao extends JFrame implements Runnable{
 
         resetarButton.addActionListener(a -> {
             reiniciar();
+        });
+
+        relatorioButton.addActionListener(a -> {
+            gerarRelatorio();
         });
 
         slider.setMinimum(1);
@@ -131,7 +136,9 @@ public class TelaSimulacao extends JFrame implements Runnable{
         String mediaOcupacaoCarregador1 = format.format(Relatorio.get_relatorio().getTaxaOcupacaoCarregador(0))+"";
         String mediaOcupacaoCarregador2 = format.format(Relatorio.get_relatorio().getTaxaOcupacaoCarregador(1))+"";
         String mediaOcupacaoBalanca = format.format(Relatorio.get_relatorio().getTaxaOcupacaoBalanca())+"";
-        String tempoEntidadeFila = format.format(Relatorio.get_relatorio().getTempoNaFila()[1])+"";
+//        String tempoEntidadeFila = format.format(Relatorio.get_relatorio().getTempoNaFila()[1])+"";
+        String tempoEntidadeFilaPesagem = format.format(Relatorio.get_relatorio().getTempoNaFilaB()[1])+"";
+        String tempoEntidadeFilaCarregamento = format.format(Relatorio.get_relatorio().getTempoNaFilaC()[1])+"";
         String tempoCiclo = format.format(Relatorio.get_relatorio().getTempoCiclo()[1])+"";
 
         relatorio.setText(
@@ -140,7 +147,8 @@ public class TelaSimulacao extends JFrame implements Runnable{
             "Taxa média de ocupação do carregador 1: " + mediaOcupacaoCarregador1 + "\n" +
             "Taxa média de ocupação do carregador 2: " + mediaOcupacaoCarregador2 + "\n" +
             "Taxa média de ocupação da balança: " + mediaOcupacaoBalanca + "\n" +
-            "Tempo médio de uma entidade na fila: " + tempoEntidadeFila + "\n" +
+            "Tempo médio de uma entidade na fila de pesagem: " + tempoEntidadeFilaPesagem + "\n" +
+            "Tempo médio de uma entidade na fila de carregamento: " + tempoEntidadeFilaCarregamento + "\n" +
             "Taxa médio de ciclo: " + tempoCiclo
         );
     }
@@ -179,18 +187,7 @@ public class TelaSimulacao extends JFrame implements Runnable{
                     int input = JOptionPane.showOptionDialog(null, "A simulação terminou!\nGerar relatório?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
                     if(input == JOptionPane.OK_OPTION) {
-                        FileWriter.generateTxt(Relatorio.get_relatorio().getReport());
-                        JOptionPane.showMessageDialog(null, "O relatório foi gerado no diretório raiz desde projeto com o nome Relatório.txt!");
-                    }
-
-                    input = JOptionPane.showOptionDialog(null, "Deseja visualizá-lo?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-                    if(input == JOptionPane.OK_OPTION) {
-                        File file = new File("Relatório.txt");
-                        try {
-                            Desktop.getDesktop().open(file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        gerarRelatorio();
                     }
 
                     input = JOptionPane.showOptionDialog(null, "Deseja simular novamente?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
@@ -200,6 +197,22 @@ public class TelaSimulacao extends JFrame implements Runnable{
                     break;
                 }
                 currentTime = elapsedTime;
+            }
+        }
+    }
+
+    private void gerarRelatorio() {
+        FileWriter.generateTxt(Relatorio.get_relatorio().getReport());
+
+        JOptionPane.showMessageDialog(null, "O relatório foi gerado no diretório raiz desde projeto com o nome Relatório.txt!");
+
+        int input = JOptionPane.showOptionDialog(null, "Deseja visualizá-lo?", "", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+        if(input == JOptionPane.OK_OPTION) {
+            File file = new File("Relatório.txt");
+            try {
+                Desktop.getDesktop().open(file);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
